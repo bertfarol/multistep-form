@@ -2,13 +2,14 @@ import React from "react";
 import FormWrapper from "./FormWrapper";
 
 const PersonalInfo = ({ name, email, phoneNumber, updateFields }) => {
-
+  // add validation if you're planning to put it in portfolio. use react-hook-form now if you want
   return (
     <FormWrapper
       title="Personal Info"
       subtitle="Please provide your name, email address, and phone number."
     >
       <div>
+        {/* repetetive inputs. create a reusable component for inputs */}
         <label
           htmlFor="name"
           className="text-[#08264C] text-[13px] font-medium"

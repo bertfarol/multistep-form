@@ -25,17 +25,21 @@ const planOptions = [
 
 const SelectPlan = ({ plan, updateFields }) => {
   const [planToggle, setPlanToggle] = useState(plan.type === "yearly");
+  // This should be a controlled component now. state is being managed in the parent component
   const [selectedPlan, setSelectedPlan] = useState(
     plan.name || planOptions[0].name
   );
+  //good naming convention
   const togglePlanType = planToggle ? "yearly" : "monthly";
 
+  // can do this without useEffect, useMemo instead to do the parsing
   useEffect(() => {
     const chosenPlan = planOptions.find((plan) => plan.name === selectedPlan);
     const planPrice = planToggle ? chosenPlan.price * 10 : chosenPlan.price;
     updateFields({
       plan: { name: selectedPlan, type: togglePlanType, price: planPrice },
     });
+    // missing dependencies
   }, [planToggle, selectedPlan]);
 
   return (
@@ -45,6 +49,7 @@ const SelectPlan = ({ plan, updateFields }) => {
     >
       <div className="lg:flex lg:flex-row lg:gap-4">
         {planOptions.map((plan) => (
+          // create component for cards
           <div
             key={plan.name}
             onClick={() => setSelectedPlan(plan.name)}
@@ -63,6 +68,7 @@ const SelectPlan = ({ plan, updateFields }) => {
             <div>
               <h3 className="text-[#000C30] font-bold">{plan.name}</h3>
               <p className="text-sm text-[#9699AB] mt-0.5">
+                {/* move to a variable */}
                 ${planToggle ? plan.price * 10 : plan.price}/
                 {planToggle ? "yr" : "mo"}
               </p>
@@ -73,17 +79,20 @@ const SelectPlan = ({ plan, updateFields }) => {
           </div>
         ))}
       </div>
+      {/* Create a new component for this */}
       <div className="bg-[#F8F9FE] rounded-lg py-[14px] mt-6">
         <div className="relative flex flex-col items-center justify-center overflow-hidden">
           <div className="flex items-center gap-4">
             <span className="text-sm font-bold text-[#000C30]">Monthly</span>
             <label className="relative inline-flex items-center cursor-pointer">
+              {/* create a checkbox component */}
               <input
                 type="checkbox"
                 className="sr-only peer"
                 checked={planToggle}
                 readOnly
               />
+              {/* Create a toggle component */}
               <div
                 onClick={() => {
                   setPlanToggle(!planToggle);

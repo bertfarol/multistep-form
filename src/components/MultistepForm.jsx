@@ -1,3 +1,4 @@
+// This should be under containers folder
 import React, { useState } from "react";
 import useMultistepForm from "../hook/useMultistepForm";
 import PersonalInfo from "./PersonalInfo";
@@ -12,6 +13,7 @@ const stepIndicator = [
     step: 1,
     name: "STEP 1",
     description: "YOUR INFO",
+    // Component: PersonalInfo
   },
   {
     step: 2,
@@ -31,7 +33,7 @@ const stepIndicator = [
 ];
 
 const INITIAL_FORM_DATA = {
-  name: "",
+  name: "Test",
   email: "",
   phoneNumber: "",
   plan: {
@@ -44,8 +46,12 @@ const INITIAL_FORM_DATA = {
 
 const MultistepForm = () => {
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+
+  // create separate form for thank you message
+  // reason for this is to decouple it to the multistep form
   const [showThankyouMessage, setShowThankyouMessage] = useState(false);
 
+  // put handler in handlerFunctions. eg: handleUpdateFields ir updateFieldsHandler
   const updateFields = (fields) => {
     setFormData((prevFormData) => {
       return { ...prevFormData, ...fields };
@@ -53,6 +59,8 @@ const MultistepForm = () => {
   };
 
   const { currentStepIndex, step, isFirstStep, isLastStep, back, next } =
+    //good! Tip, create context provider for prop drilling in the future
+    //put in stepIndicator under Component property for easier modification when adding or removing steps
     useMultistepForm([
       <PersonalInfo {...formData} updateFields={updateFields} />,
       <SelectPlan {...formData} updateFields={updateFields} />,
@@ -70,6 +78,7 @@ const MultistepForm = () => {
   return (
     <div className="bg-[#ECF3FD] flex flex-col min-h-full lg:w-full lg:h-full lg:min-h-[600px] lg:shadow-md lg:bg-white lg:flex-row lg:max-w-[940px] mx-auto lg:p-4 lg:rounded-xl">
       {/* step indicator*/}
+      {/* move this to a separate component, dissect to smaller components. Step header, Step list, Step body or content, etc. */}
       <div className="bg-sidebar-mobile bg-cover bg-center lg:bg-sidebar-desktop h-[172px] lg:h-auto lg:w-[274px] lg:rounded-lg px-7 pb-10">
         <div className="flex justify-center gap-4 pt-8 lg:gap-8 lg:flex-col">
           {stepIndicator.map((indicator, index) => (
