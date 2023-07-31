@@ -23,16 +23,24 @@ const addonsOptions = [
   },
 ];
 
+
+// use typecript
 const Addons = ({ plan, updateFields }) => {
   const [addons, setAddons] = useState(addonsOptions);
+  // more descriptive variable name. eg: isYearlyPlan - for boolean variables
   const planYearly = plan.type === "yearly";
 
+  // use useCallback for functions
   const handleAddonClick = (index) => {
+    // unnecessary destructuring
     const updatedAddons = [...addonsOptions];
     updatedAddons[index].checked = !updatedAddons[index].checked;
+    // use setAddons(state=>({...state})) when updating useState state
+    // setAddons(addons=> addons.map((addon, index)=> ({...addon, isChecked: !addon.isChecked})))
     setAddons(updatedAddons);
   };
 
+  //Unnecessary side effect. can be put in handleAddonClick
   useEffect(() => {
     const checkedAddons = addons.filter((addon) => addon.checked === true);
     const addonsSelected = checkedAddons.map((addon) => ({
@@ -43,6 +51,7 @@ const Addons = ({ plan, updateFields }) => {
     updateFields({
       addons: addonsSelected,
     });
+    // check dependencies. VSCode automatically checks for missing dependencies
   }, [addons]);
 
   return (
@@ -51,6 +60,7 @@ const Addons = ({ plan, updateFields }) => {
       subtitle="Add-ons help enhance your gaming experience."
     >
       <div>
+        {/* missing key in map */}
         {addons.map((addons, index) => (
           <div
             onClick={() => handleAddonClick(index)}
@@ -73,6 +83,7 @@ const Addons = ({ plan, updateFields }) => {
               <p className="text-sm text-[#9699AB] ">{addons.description}</p>
             </div>
             <div className="text-sm text-[#473DFF] font-medium">
+              {/* Move this to a variable readability; const yearlyPrice, const monthlyPrice & const priceLabel */}
               +${planYearly ? addons.price * 10 : addons.price}/
               {planYearly ? "yr" : "mo"}
             </div>

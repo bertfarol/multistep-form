@@ -6,6 +6,7 @@ const Summary = ({ plan, addons }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const yearlyPlan = plan.type === "yearly";
 
+  // this calculation can be handled in useMemo
   useEffect(() => {
     const planPrice = plan.price;
     const addonsPrice = addons.map((addon) => addon.price);
@@ -21,6 +22,7 @@ const Summary = ({ plan, addons }) => {
       title="Finishing up"
       subtitle="Double-check everything looks OK before confirming"
     >
+      {/* Create a component for this naming it like, Breakdown table. or any */}
       <div className="bg-[#F8F9FE] p-4 rounded-md">
         <div className="flex items-center justify-between border-b border-[#D9D8DD] pb-4">
           <div>
